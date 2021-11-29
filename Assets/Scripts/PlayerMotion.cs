@@ -6,11 +6,11 @@ public class PlayerMotion : MonoBehaviour
 {
     Rigidbody rigidbody;
     bool isJumpKeyPressed = false;
+    float horizontalSpeed = 5;
     // Start is called before the first frame update
     void Start()
     {
         rigidbody = gameObject.GetComponent<Rigidbody>();
-        rigidbody.velocity = new Vector3(5, 0, 0);
     }
 
     // Update is called once per frame
@@ -22,6 +22,7 @@ public class PlayerMotion : MonoBehaviour
     }
 
     void FixedUpdate(){
+        transform.Translate(Vector3.right * horizontalSpeed * Time.deltaTime);
         if(isJumpKeyPressed){
             rigidbody.AddForce(new Vector3(0, 5, 0), ForceMode.VelocityChange);
             isJumpKeyPressed = false;
