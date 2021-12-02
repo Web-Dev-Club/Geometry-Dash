@@ -7,6 +7,8 @@ public class PlayerMotion : MonoBehaviour
     Rigidbody rigidbody;
     bool isJumpKeyPressed = false;
     float horizontalSpeed = 5;
+    public Vector3 gravity = new Vector3(0, -3F, 0);
+    public Vector3 jumpPower = new Vector3(0, 8, 0);
     // Start is called before the first frame update
     void Start()
     {
@@ -16,15 +18,21 @@ public class PlayerMotion : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space) && rigidbody.velocity.y == 0){
-            isJumpKeyPressed = true;
-        }
+        Physics.gravity = gravity;
+
+        if (Input.GetKeyDown(KeyCode.Space) ){
+            if (Mathf.Floor(Mathf.Abs(rigidbody.velocity.y)) < 0.05)
+            {
+                isJumpKeyPressed = true;
+            }
+        } 
+
     }
 
     void FixedUpdate(){
         transform.Translate(Vector3.right * horizontalSpeed * Time.deltaTime);
         if(isJumpKeyPressed){
-            rigidbody.AddForce(new Vector3(0, 5, 0), ForceMode.VelocityChange);
+            rigidbody.AddForce(jumpPower, ForceMode.VelocityChange);
             isJumpKeyPressed = false;
         }
     }
